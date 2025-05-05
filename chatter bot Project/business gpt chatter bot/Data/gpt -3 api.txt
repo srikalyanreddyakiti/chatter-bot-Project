@@ -1,0 +1,67 @@
+Sure! Here's an example of how you can use the OpenAI API and the `gpt-2` engine to generate text:
+
+```python
+import openai_secret_manager
+
+assert "openai" in openai_secret_manager.get_services()
+secrets = openai_secret_manager.get_secret("openai")
+
+import openai
+openai.api_key = secrets["api_key"]
+
+def generate_text(prompt):
+    response = openai.Completion.create(
+        engine="gpt-2",
+        prompt=prompt,
+        max_tokens=150,
+        n=1,
+        stop=None,
+        temperature=0.5
+    )
+    return response['choices'][0]['text'].strip()
+
+prompt = "Write a product description for a new bike model"
+text = generate_text(prompt)
+print(text)
+```
+
+This code uses the OpenAI API to generate a product description for a new bike model using the `gpt-2` engine. You can adjust the `prompt` to specify the type of text you want to generate, and you can also adjust the parameters such as `max_tokens` and `temperature` to customize the behavior of the text generation.
+
+Is there anything else you would like to know?
+
+jf!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+Sure! Here's a simple example of how you can build a chatbot using a GPT-like model in Python:
+
+
+write a code to buld chat gpt like model
+```python
+import openai_secret_manager
+
+assert "openai" in openai_secret_manager.get_services()
+secrets = openai_secret_manager.get_secret("openai")
+
+import openai
+openai.api_key = secrets["api_key"]
+
+def generate_response(prompt):
+    response = openai.Completion.create(
+        engine="davinci",
+        prompt=prompt,
+        max_tokens=150,
+        n=1,
+        stop=None,
+        temperature=0.5
+    )
+    return response['choices'][0]['text'].strip()
+
+while True:
+    prompt = input("User: ")
+    response = generate_response(prompt)
+    print(f"Bot: {response}")
+```
+
+This code uses the OpenAI API to generate responses to user input using the `davinci` engine. You can adjust the parameters such as `max_tokens`, `temperature`, and `engine` to customize the behavior of the chatbot.
+
+Is there anything else you would like to know?

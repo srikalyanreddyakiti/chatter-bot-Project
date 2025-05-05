@@ -1,0 +1,154 @@
+Here is an example of a text generation script using the GPT-2 model from the `transformers` library:
+
+```python
+from transformers import GPT2LMHeadModel, GPT2Tokenizer
+
+# Load pre-trained model tokenizer (vocabulary)
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+
+# Load pre-trained model (weights)
+model = GPT2LMHeadModel.from_pretrained('gpt2')
+
+# Set the model in evaluation mode to deactivate the DropOut modules
+model.eval()
+
+# Encode a text inputs
+text = "Once upon a time"
+indexed_tokens = tokenizer.encode(text)
+
+# Convert indexed tokens in a PyTorch tensor
+tokens_tensor = torch.tensor([indexed_tokens])
+
+# Generate text
+with torch.no_grad():
+    outputs = model.generate(tokens_tensor)
+    prediction = outputs[0]
+
+# Decode the prediction
+predicted_text = tokenizer.decode(prediction, skip_special_tokens=True)
+
+print(predicted_text)
+```
+
+This script loads the pre-trained GPT-2 model and its tokenizer from the `transformers` library. It then encodes a given text input and generates new text based on that input using the `generate` method of the model. The generated text is then decoded and printed.
+
+I hope this helps! Let me know if you have any questions or need further assistance.
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+chatter code 
+
+from chatterbot import ChatBot
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+chatbot = ChatBot('BusinessBot')
+
+# Create a new trainer for the chatbot
+trainer = ChatterBotCorpusTrainer(chatbot)
+
+# Now let us train our bot with multiple corpus
+trainer.train("chatterbot.corpus.english")
+
+while True:
+    user_input = input('User: ')
+    if user_input.lower() == 'quit':
+        break
+    response = chatbot.get_response(user_input)
+    print(f'Chatbot: {response}')
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Here is an example of how you can fine-tune a pre-trained GPT-2 model on your own training data using the `transformers` library:
+
+```python
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, AdamW
+
+# Load pre-trained model tokenizer (vocabulary)
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+
+# Load pre-trained model (weights)
+model = GPT2LMHeadModel.from_pretrained('gpt2')
+
+# Set the model in training mode to activate the DropOut modules
+model.train()
+
+# Define the optimizer
+optimizer = AdamW(model.parameters(), lr=1e-4)
+
+# Load your training data
+train_data = ["Once upon a time", "In a faraway kingdom", "There lived a king"]
+
+for epoch in range(3):
+    for text in train_data:
+        # Encode the text input
+        indexed_tokens = tokenizer.encode(text, return_tensors='pt')
+
+        # Clear gradients
+        optimizer.zero_grad()
+
+        # Forward pass
+        outputs = model(indexed_tokens)
+        loss = outputs.loss
+
+        # Backward pass
+        loss.backward()
+        optimizer.step()
+
+    print(f"Epoch: {epoch+1}, Loss: {loss.item():.4f}")
+
+# Save the fine-tuned model
+model.save_pretrained('fine_tuned_model')
+```
+
+This script loads the pre-trained GPT-2 model and its tokenizer from the `transformers` library. It then fine-tunes the model on your own training data by iterating over the data and updating the model's weights using backpropagation. The fine-tuned model is then saved for later use.
+
+I hope this helps! Let me know if you have any questions or need further assistance.
+
+
+..//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+If you have your training data in a text file, you can load it into a list of strings and use it to fine-tune the GPT-2 model. Here is an example of how you can do this:
+
+```python
+from transformers import GPT2LMHeadModel, GPT2Tokenizer, AdamW
+
+# Load pre-trained model tokenizer (vocabulary)
+tokenizer = GPT2Tokenizer.from_pretrained('gpt2')
+
+# Load pre-trained model (weights)
+model = GPT2LMHeadModel.from_pretrained('gpt2')
+
+# Set the model in training mode to activate the DropOut modules
+model.train()
+
+# Define the optimizer
+optimizer = AdamW(model.parameters(), lr=1e-4)
+
+# Load your training data from a text file
+with open('train_data.txt', 'r') as f:
+    train_data = f.read().splitlines()
+
+for epoch in range(3):
+    for text in train_data:
+        # Encode the text input
+        indexed_tokens = tokenizer.encode(text, return_tensors='pt')
+
+        # Clear gradients
+        optimizer.zero_grad()
+
+        # Forward pass
+        outputs = model(indexed_tokens)
+        loss = outputs.loss
+
+        # Backward pass
+        loss.backward()
+        optimizer.step()
+
+    print(f"Epoch: {epoch+1}, Loss: {loss.item():.4f}")
+
+# Save the fine-tuned model
+model.save_pretrained('fine_tuned_model')
+```
+
+In this example, the training data is loaded from a text file named `train_data.txt` into a list of strings using the `read` and `splitlines` methods. The rest of the code is the same as in the previous example.
+
+I hope this helps! Let me know if you have any questions or need further assistance.
